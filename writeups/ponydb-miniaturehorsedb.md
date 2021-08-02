@@ -1,6 +1,6 @@
-## PonyDB
+# PonyDB
 
-# TL; DR
+## TL; DR
 - The Goal:
   The Goal was to get "1337" as the favorite number
 
@@ -11,30 +11,30 @@
   You could overflow the favorite key or value which caused the stored Json-string to exceed the maximal lenght of 256 and thus get truncated. This meant the deserialization wouldn't error out because of trailing data.
 
 
-# Structure
+## Structure
 You can skip this part if you are already familiar with the challenge
 
 The some important parts of the code
 
-1.) The sql_mode
+### 1.) The sql_mode
 
 	'sql_mode': 'NO_BACKSLASH_ESCAPES'
  
  So that means Quotes can't be escaped by an backslash
  
  
- 2.) The table creation
+ ### 2.) The table creation
  
     cursor.execute('CREATE TABLE `ponies` (`name` varchar(64), `bio` varchar(256), `image` varchar(256), `favorites` varchar(256), `session` varchar(64))')
  
- 3.) The insert query
+ ### 3.) The insert query
 
     cur.execute(f"INSERT INTO `ponies` VALUES ('{name}', '{bio}', '{image}', " + \
 		            f"'{{\"{favorite_key.lower()}\":\"{favorite_value}\"," + \
 		            f"\"word\":\"{word.lower()}\",\"number\":{number}}}', " + \
 		            f"'{session['id']}')")
  
-4.) Input validation
+### 4.) Input validation
 
 (If error has a value not null the insert query doesn't get executed)
 
@@ -44,7 +44,16 @@ Same for all other fields...
 	  if "'" in name: error = 'Name may not contain single quote'
 	  if len(name) > 64: error = 'Name too long'
 
-Except for favortite key/value pair:
+Except for the favorite number:
+
+	number = int(request.form['number'])
+	if number >= 100: error = "Ponies can't count that high"
+	if number < 0: error = "Ponies can't count that low"
+
+(this validates that the number is between 0 and 100)
+
+
+And except for **favortite key/value pair**:
 
 	favorite_key = request.form['favorite_key']
 	if "'" in favorite_key: error = 'Custom favorite name may not contain single quote'
@@ -55,3 +64,13 @@ Except for favortite key/value pair:
 	if len(favorite_value) > 64: 'Custom favorite too long'
 
 They have a small diffrenze they don't define the error variable if the lenght isn't right
+
+A SQL injection isn't possible but the injection of arbitrary JSON data is...
+
+### 5.) Flag reveal
+
+	{% if favorite == 'number' and pony['favorites'][favorite] == 1337 %}
+	Favorite flag: {{ flag }}
+	{% endif %} {% endfor %}
+
+The Flag will be shown if the favorite number is 1337
