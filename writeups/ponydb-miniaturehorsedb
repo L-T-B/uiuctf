@@ -1,0 +1,7 @@
+##PonyDB
+
+# TL; DR
+- The Goal:
+  The Goal was to 
+
+- You could overflow the custom Tag and Value which caused the stored Json-string to be truncated. This meant you could 
