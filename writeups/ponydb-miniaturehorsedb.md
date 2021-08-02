@@ -96,7 +96,7 @@ This isn't a valid JSON Array for the python JSON parser and it will thow an err
 
 So we had to trim the Json Data in some way...
 
-So I asked myself what would happen if the string overflows the maximal characters...
+I asked myself what would happen if the string overflows the maximal characters...
 
 and BINGO!
 
@@ -104,3 +104,7 @@ If the string is longer than the maximal amount, Mysql will just show a waring a
 
 ## The Payload
 
+	favorite_key = somevalue
+	favorite value = aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "number": 1337}
+
+the other values can be chosen freely as long as they don't interfear with the already stated rules
