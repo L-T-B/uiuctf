@@ -35,7 +35,23 @@ The some important parts of the code
 		            f"'{session['id']}')")
  
 4.) Input validation
-  
+
+(If error has a value not null the insert query doesn't get executed)
+
+Same for all other fields...
+
     name = request.form['name']
 	  if "'" in name: error = 'Name may not contain single quote'
 	  if len(name) > 64: error = 'Name too long'
+
+Except for favortite key/value pair:
+
+	favorite_key = request.form['favorite_key']
+	if "'" in favorite_key: error = 'Custom favorite name may not contain single quote'
+	if len(favorite_key) > 64: 'Custom favorite name too long'
+
+	favorite_value = request.form['favorite_value']
+	if "'" in favorite_value: error = 'Custom favorite may not contain single quote'
+	if len(favorite_value) > 64: 'Custom favorite too long'
+
+They have a small diffrenze they don't define the error variable if the lenght isn't right
