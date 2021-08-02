@@ -109,4 +109,12 @@ If the string is longer than the maximal amount, Mysql will just show a waring a
 
 the other values can be chosen freely as long as they don't interfear with the already stated rules
 
+because mysql trims the json data the "trailing data" goes missing which is now a valid json Array
+
+	{"somevalue":"a...a", "number": 1337}","word":"someword,"number":10}
+
+gets trimmed to
+
+	{"somevalue":"a...a", "number": 1337}
+
 ## Thank you for reading :)
