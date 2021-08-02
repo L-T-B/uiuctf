@@ -74,3 +74,33 @@ A SQL injection isn't possible but the injection of arbitrary JSON data is...
 	{% endif %} {% endfor %}
 
 The Flag will be shown if the favorite number is 1337
+
+
+## Exploitation
+
+Let's recap:
+- the favorites Column (JSON Data) is maxed at 256 chars
+- we are able to insert an arbitrary amount of characters into a string which will get stored in this column
+- the original number/value pair gets checked and will always be appended to the end of the Json array
+
+Simply closing the Json Array with an Exploit like
+
+	favorite_key = 'somevalue'
+	favorite_value = 'a", "number": 1337}'
+
+would result in a JSON data like
+	
+	{"somevalue":"a", "number": 1337}","word":"someword,"number":10}
+
+This isn't a valid JSON Array for the python JSON parser and it will thow an error ("json trailing data") and stop the application
+
+So we had to trim the Json Data in some way...
+
+So I asked myself what would happen if the string overflows the maximal characters...
+
+and BINGO!
+
+If the string is longer than the maximal amount, Mysql will just show a waring and trim the string to the maximal size
+
+## The Payload
+
