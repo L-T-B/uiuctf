@@ -108,3 +108,5 @@ If the string is longer than the maximal amount, Mysql will just show a waring a
 	favorite value = aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "number": 1337}
 
 the other values can be chosen freely as long as they don't interfear with the already stated rules
+
+## Thank you for reading :)
