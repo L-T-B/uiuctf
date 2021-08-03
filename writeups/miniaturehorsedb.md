@@ -1,4 +1,4 @@
-# PonyDB
+# miniaturehorsedb
 
 ## TL; DR
 - The Goal:
